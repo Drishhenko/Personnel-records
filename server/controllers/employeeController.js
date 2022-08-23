@@ -1,30 +1,53 @@
-const { Employee } = require("../index")
+const { Employee } = require('../models')
+const ApiError = require('../services/apiError')
 
 class EmployeeController {
-    async create(req, res) {
-        const {name, surname, position} = req.body
-        const employee = await Employee.create({name, surname, position})
-        return res.json(employee)
-    }
+	async create(req, res, next) {
+		let { name, surname, position, departmentId } = req.body
+		if (!name || !surname || !position) {
+			return next(ApiError.badRequest('incorrect data'))
+		}
+		try {
+			const employee = await Employee.create({
+				name,
+				surname,
+				position,
+				departmentId,
+			})
+			return res.json(employee)
+		} catch (e) {
+			return next(ApiError.internalServerError(e.message))
+		}
+	}
 
-    async getAll(req, res) {
-        const employees = await Employee.findAll()
-        return res.json(employees)
-    }
+	async getAll(req, res) {
+		try {
+			const employees = await Employee.findAll()
+			return res.json(employees)
+		} catch (e) {
+			return next(ApiError.internalServerError(e.message))
+		}
+	}
 
-    async getOne(req, res) {
-        const {id} = req.params
-        const employee = await Employee.findOne({where: {id}})
-        return res.json(employee)
-    }
+	async getOne(req, res) {
+		const { id } = req.params
+		try {
+			const employee = await Employee.findOne({ where: { id } })
+			return res.json(employee)
+		} catch (e) {
+			return next(ApiError.internalServerError(e.message))
+		}
+	}
 
-    async delete(req, res) {
-        const { id } = req.body
-        await Employee.destroy({where: {id}})
-        return res.json('deleted'); 
-    }
-
-
+	async delete(req, res) {
+		const { id } = req.body
+		try {
+			const employee = await Employee.destroy({ where: { id } })
+			return res.json(employee)
+		} catch (e) {
+			return next(ApiError.internalServerError(e.message))
+		}
+	}
 }
 
-module.exports = new EmployeeController
+module.exports = new EmployeeController()

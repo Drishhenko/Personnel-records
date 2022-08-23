@@ -1,22 +1,23 @@
-const Router = require ('express')
+const Router = require('express')
 const departmentController = require('./controllers/departmentController')
 const employeeController = require('./controllers/employeeController')
 
 const employeeRouter = new Router()
+console.log({ employeeRouter })
 
 employeeRouter.post('/', employeeController.create)
 employeeRouter.get('/:id', employeeController.getOne)
 // employeeRouter.get('/', employeeController.getAll)
 employeeRouter.get('/', (req, res) => {
-    res.json({message: 'working'})
+	res.json({ message: 'working' })
 })
 employeeRouter.delete('/:id', employeeController.delete)
 
 const departmentRouter = new Router()
 
-departmentRouter.post('/', departmentController.create )
-departmentRouter.get('/', departmentController.getAll )
-departmentRouter.get('/:id', departmentController.getOne )
+departmentRouter.post('/', departmentController.create)
+departmentRouter.get('/', departmentController.getAll)
+departmentRouter.get('/:id', departmentController.getOne)
 departmentRouter.delete('/:id', departmentController.delete)
 
 const mainRouter = new Router()
