@@ -14,3 +14,8 @@ export const getOneDepartment = async (id) => {
     const {data} = await $host.get('api/department' + id)
     return data
 }
+
+export const deleteDepartment = async (id) => {
+    const {data} = await $host.delete('api/department/' + id)
+    return data 
+}

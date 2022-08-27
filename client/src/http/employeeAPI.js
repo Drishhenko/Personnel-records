@@ -14,3 +14,8 @@ export const getOneEmployee = async (id) => {
     const {data} = await $host.get('api/employee' + id)
     return data
 }
+
+export const deleteEmployee = async (id) => {
+    const {data} = await $host.delete('api/employee/' + id)
+    return data
+}
