@@ -1,5 +1,5 @@
 const { Department } = require('../models')
-const ApiError = require('../services/apiError')
+const ApiError = require('../apiError')
 
 class DepartmentController {
 	async create(req, res, next) {
@@ -33,18 +33,18 @@ class DepartmentController {
 			return res.json(department)
 		} catch (e) {
 			return next(ApiError.internalServerError(e.message))
-		}
+		} 
 	}
 
 	async delete(req, res) {
-		const { id } = req.body
+		const { id } = req.params
 		try {
-			await Department.destroy({ where: { id } })
+			const department = await Department.destroy({ where: { id } })
 			return res.json(department)
 		} catch (e) {
-			return next(ApiError.internalServerError(e.message))
+			return next(ApiError.internalServerError(e.message)) 
 		}
-	}
+	} 
 }
 
 module.exports = new DepartmentController()

@@ -7,10 +7,8 @@ console.log({ employeeRouter })
 
 employeeRouter.post('/', employeeController.create)
 employeeRouter.get('/:id', employeeController.getOne)
-// employeeRouter.get('/', employeeController.getAll)
-employeeRouter.get('/', (req, res) => {
-	res.json({ message: 'working' })
-})
+employeeRouter.get('/', employeeController.getAll)
+
 employeeRouter.delete('/:id', employeeController.delete)
 
 const departmentRouter = new Router()

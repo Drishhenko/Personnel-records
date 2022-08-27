@@ -1,10 +1,10 @@
 const { Employee } = require('../models')
-const ApiError = require('../services/apiError')
+const ApiError = require('../apiError')
 
 class EmployeeController {
 	async create(req, res, next) {
 		let { name, surname, position, departmentId } = req.body
-		if (!name || !surname || !position) {
+		if (!name || !surname || !position || !departmentId) {
 			return next(ApiError.badRequest('incorrect data'))
 		}
 		try {
@@ -40,7 +40,7 @@ class EmployeeController {
 	}
 
 	async delete(req, res) {
-		const { id } = req.body
+		const { id } = req.params
 		try {
 			const employee = await Employee.destroy({ where: { id } })
 			return res.json(employee)
