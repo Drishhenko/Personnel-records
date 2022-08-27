@@ -1,9 +1,9 @@
 import React from 'react'
 import { Card } from 'react-bootstrap'
 
-const EmployeeItem = () => {
+const EmployeeItem = ({name, surname}) => {
   return (
-    <Card>EmployeeItem</Card>
+    <Card>{`${name} ${surname}`}</Card>
   )
 }
 
