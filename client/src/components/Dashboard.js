@@ -32,7 +32,7 @@ const Dashboard = ({ employees, departments }) => {
         </ListGroup.Item>
         {employees &&
           employees
-            .sort((a, b) => a.createdAt - b.createdAt)
+            .sort((a, b) =>  new Date(b.createdAt) - new Date(a.createdAt))
             .map((employee) => (
               <ListGroup.Item
                 key={employee.id}
