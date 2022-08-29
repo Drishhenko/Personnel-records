@@ -33,7 +33,7 @@ const MainPage = () => {
     if (!departments) {
       fetchDepartments()
     }
-  }, [])
+  })
 
   return (
     <Container fluid>
