@@ -52,13 +52,15 @@ const TabsPanel = ({
   return (
     <Tabs fill className="mt-3">
       <Tab eventKey="Departments" title="Departments">
-        <Button
-          className="my-3"
-          variant="success"
-          onClick={() => setActiveModal('department')}
-        >
-          Add new
-        </Button>
+        <div className="d-flex justify-content-end">
+          <Button
+            className="my-3"
+            variant="success"
+            onClick={() => setActiveModal('department')}
+          >
+            Add new
+          </Button>
+        </div>
         <ModalDepartment
           show={activeModal === 'department'}
           handleClose={handleClose}
@@ -67,7 +69,9 @@ const TabsPanel = ({
         {departments &&
           departments.map((department) => (
             <DepartmentItem
-              employees={employees.filter((item) => item.departmentId === department.id)}
+              employees={employees.filter(
+                (item) => item.departmentId === department.id
+              )}
               department={department}
               handleDelete={handleDeleteDepartment}
               key={department.id}

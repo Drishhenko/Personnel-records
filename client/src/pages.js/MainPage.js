@@ -36,7 +36,7 @@ const MainPage = () => {
   }, [])
 
   return (
-    <Container  fluid>
+    <Container fluid>
       {isLoading ? (
         <Spinner animation="border" />
       ) : (
