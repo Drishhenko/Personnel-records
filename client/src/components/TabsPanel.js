@@ -1,7 +1,5 @@
 import React, { useState } from 'react'
 import { Button, Tab, Tabs, Form } from 'react-bootstrap'
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
-import Tooltip from 'react-bootstrap/Tooltip'
 import DepartmentItem from './DepartmentItem'
 import ModalEmployee from './ModalEmployee'
 import EmployeeItem from './EmployeeItem'

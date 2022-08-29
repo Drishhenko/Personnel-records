@@ -12,7 +12,7 @@ const DepartmentPage = () => {
 
   useEffect(() => {
     getOneDepartment(id).then((data) => setDepartment(data))
-  }, [])
+  }, [id])
 
   const headOfDepartment =
     department &&
