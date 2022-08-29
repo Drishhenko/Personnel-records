@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import { Button, Modal, Form } from 'react-bootstrap'
 
-const ModalEmployee = ({ show, handleClose, handleAdd }) => {
+const ModalEmployee = ({ show, handleClose, handleAdd, departments }) => {
   const [name, setName] = useState('')
   const [surname, setSurname] = useState('')
+  const [departmentId, setDepartmentId] = useState('')
+
   const [position, setPosition] = useState('Simple employee')
 
   return (
@@ -30,6 +32,22 @@ const ModalEmployee = ({ show, handleClose, handleAdd }) => {
             />
           </Form.Group>
           <Form.Group>
+            <Form.Label> Choose department</Form.Label>
+            <Form.Control
+              as="select"
+              defaultValue={departmentId}
+              onChange={(e) => setDepartmentId(e.target.value)}
+            >
+              <option value =''>Not choosen</option>
+              {departments &&
+                departments.map((department) => (
+                  <option value={department.id} key={department.id}>
+                    {department.title}
+                  </option>
+                ))}
+            </Form.Control>
+          </Form.Group>
+          <Form.Group>
             <Form.Label> Choose position</Form.Label>
             <Form.Control
               as="select"
@@ -47,8 +65,9 @@ const ModalEmployee = ({ show, handleClose, handleAdd }) => {
           Close
         </Button>
         <Button
+          disabled={!name || !surname || !departmentId}
           variant="primary"
-          onClick={() => handleAdd({ name, surname, position })}
+          onClick={() => handleAdd({ name, surname, position, departmentId })}
         >
           Add
         </Button>

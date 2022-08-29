@@ -1,4 +1,4 @@
-const { Department } = require('../models')
+const { Department, Employee } = require('../models')
 const ApiError = require('../apiError')
 
 class DepartmentController {
@@ -19,7 +19,9 @@ class DepartmentController {
 
 	async getAll(req, res) {
 		try {
-			const departments = await Department.findAll()
+			const departments = await Department.findAll({
+				include: { model: Employee, as: 'stuff' },
+			})
 			return res.json(departments)
 		} catch (e) {
 			return next(ApiError.internalServerError(e.message))
@@ -29,11 +31,14 @@ class DepartmentController {
 	async getOne(req, res) {
 		const { id } = req.params
 		try {
-			const department = await Department.findOne({ where: { id } })
+			const department = await Department.findOne({
+				where: { id },
+				include: { model: Employee, as: 'stuff' },
+			})
 			return res.json(department)
 		} catch (e) {
 			return next(ApiError.internalServerError(e.message))
-		} 
+		}
 	}
 
 	async delete(req, res) {
@@ -42,9 +47,9 @@ class DepartmentController {
 			const department = await Department.destroy({ where: { id } })
 			return res.json(department)
 		} catch (e) {
-			return next(ApiError.internalServerError(e.message)) 
+			return next(ApiError.internalServerError(e.message))
 		}
-	} 
+	}
 }
 
 module.exports = new DepartmentController()

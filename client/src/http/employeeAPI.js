@@ -11,7 +11,7 @@ export const getEmployees = async () => {
 }
 
 export const getOneEmployee = async (id) => {
-    const {data} = await $host.get('api/employee' + id)
+    const {data} = await $host.get('api/employee/' + id)
     return data
 }
 

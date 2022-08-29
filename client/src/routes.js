@@ -1,20 +1,20 @@
-import DepartmenPage from "./pages.js/DepartmenPage";
+import DepartmentPage from "./pages.js/DepartmentPage";
 import EmployeePage from "./pages.js/EmployeePage";
 import MainPage from "./pages.js/MainPage";
 
 export const routes = [
     {
-        path: '/main_page',
+        path: '/',
         Component: MainPage
     },
 
     {
-        path: '/departmen',
-        Component: DepartmenPage
+        path: '/department/:id',
+        Component: DepartmentPage
     },
 
     {
-        path: '/employee',
+        path: '/employee/:id',
         Component: EmployeePage
     }
     

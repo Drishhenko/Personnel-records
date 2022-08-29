@@ -24,6 +24,7 @@ const TabsPanel = ({
     createEmployee({ name, surname, position, departmentId }).then((data) => {
       handleClose()
       fetchEmployees()
+      fetchDepartments()
     })
   }
 
