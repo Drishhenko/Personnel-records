@@ -1,11 +1,21 @@
-const { Employee } = require('../models')
+const { Employee, Department } = require('../models')
 const ApiError = require('../apiError')
 
 class EmployeeController {
 	async create(req, res, next) {
 		let { name, surname, position, departmentId } = req.body
 		if (!name || !surname || !position || !departmentId) {
-			return next(ApiError.badRequest('incorrect data'))
+			return next(ApiError.badRequest('Incorrect data.'))
+		}
+
+		if (position === 'Head of department') {
+			const headOfDepartment = await Employee.findOne({
+				were: { departmentId, position },
+			})
+			console.log('headOfDepartment', headOfDepartment)
+			if (headOfDepartment) {
+				return res.status(400).send('There can be only one head of department.')
+			}
 		}
 		try {
 			const employee = await Employee.create({

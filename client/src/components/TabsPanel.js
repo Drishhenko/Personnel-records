@@ -15,15 +15,20 @@ const TabsPanel = ({
 }) => {
   const [activeModal, setActiveModal] = useState('')
   const [searchValue, setSearchValue] = useState('')
+  const [error, setError] = useState('')
 
   const handleClose = () => setActiveModal('')
 
   const handleAddEmployee = ({ name, surname, position, departmentId }) => {
-    createEmployee({ name, surname, position, departmentId }).then((data) => {
-      handleClose()
-      fetchEmployees()
-      fetchDepartments()
-    })
+    createEmployee({ name, surname, position, departmentId })
+      .then((data) => {
+        handleClose()
+        fetchEmployees()
+        fetchDepartments()
+      })
+      .catch((err) => {
+        setError(err.response.data)
+      })
   }
 
   const handleAddDepartment = ({ title, description }) => {
@@ -100,6 +105,7 @@ const TabsPanel = ({
           departments={departments}
           show={activeModal === 'employee'}
           handleClose={handleClose}
+          error={error}
           handleAdd={handleAddEmployee}
         />
         {employees &&
