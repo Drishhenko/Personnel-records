@@ -27,6 +27,7 @@ const TabsPanel = ({
         fetchDepartments()
       })
       .catch((err) => {
+        console.log('ERR',err)
         setError(err.response.data)
       })
   }
