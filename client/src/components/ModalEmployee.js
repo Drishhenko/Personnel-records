@@ -65,7 +65,7 @@ const ModalEmployee = ({
             </Form.Control>
           </Form.Group>
         </Form>
-        {error && <Alert variant="danger">{error}</Alert>}
+        {error && error.map(err => <Alert variant="danger">{err.msg}</Alert>)}
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={handleClose}>

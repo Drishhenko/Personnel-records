@@ -15,7 +15,7 @@ const TabsPanel = ({
 }) => {
   const [activeModal, setActiveModal] = useState('')
   const [searchValue, setSearchValue] = useState('')
-  const [error, setError] = useState('')
+  const [error, setError] = useState(null)
 
   const handleClose = () => setActiveModal('')
 
@@ -27,10 +27,12 @@ const TabsPanel = ({
         fetchDepartments()
       })
       .catch((err) => {
-        console.log('ERR',err)
-        setError(err.response.data)
+        console.log('ERR', err)
+        setError(err.response.data.errors)
       })
   }
+
+  console.log(error)
 
   const handleAddDepartment = ({ title, description }) => {
     createDepartment({ title, description }).then((data) => {
@@ -59,7 +61,7 @@ const TabsPanel = ({
         <div className="d-flex justify-content-end">
           <Button
             className="my-3"
-            variant="success"
+            variant="outline-success"
             onClick={() => setActiveModal('department')}
           >
             Add new
@@ -95,7 +97,7 @@ const TabsPanel = ({
 
           <Button
             className="text-nowrap"
-            variant="success"
+            variant="outline-success"
             disabled={!departments || !departments.length}
             onClick={() => setActiveModal('employee')}
           >
@@ -121,7 +123,7 @@ const TabsPanel = ({
               <EmployeeItem
                 key={employee.id}
                 employee={employee}
-                handleDelete={handleDeleteEmployee}
+                handleDelete={()=> handleDeleteEmployee(employee.id)}
                 department={departments.find(
                   (department) => department.id === employee.departmentId
                 )}
