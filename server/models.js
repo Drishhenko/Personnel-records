@@ -10,11 +10,17 @@ const Employee = sequelize.define('employee', {
 
 const Department = sequelize.define('department', {
 	id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-	title: { type: DataTypes.STRING },
+	title: { type: DataTypes.STRING, unique: true  },
 	description: { type: DataTypes.STRING },
+})
+
+const Admin = sequelize.define('admin', {
+	id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true}, 
+	login: { type: DataTypes.STRING, unique: true, allowNull: false },
+	password: {type: DataTypes.STRING, allowNull: false}
 })
 
 Department.hasMany(Employee, {as: 'stuff'})
 Employee.belongsTo(Department)
 
-module.exports = { Employee, Department }
+module.exports = { Employee, Department, Admin }

@@ -2,7 +2,7 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Card, Col, Button, Row, Badge } from 'react-bootstrap'
 
-const DepartmentItem = ({ department, handleDelete, employees }) => {
+const DepartmentItem = ({ department, handleDelete, employees, token }) => {
   const navigate = useNavigate()
 
   const onDeleteClick = (e) => {
@@ -14,6 +14,8 @@ const DepartmentItem = ({ department, handleDelete, employees }) => {
     department.stuff.find(
       (employee) => employee.position === 'Head of department'
     )
+
+  console.log({ token })
 
   return (
     <Card
@@ -49,9 +51,11 @@ const DepartmentItem = ({ department, handleDelete, employees }) => {
           xs={2}
           className="d-flex justify-content-center align-items-center"
         >
-          <Button variant="danger" onClick={onDeleteClick}>
-            Delete
-          </Button>
+          {token && (
+            <Button variant="outline-danger" onClick={onDeleteClick}>
+              Delete
+            </Button>
+          )}
         </Col>
       </Row>
     </Card>

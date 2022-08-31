@@ -1,6 +1,6 @@
 const { check, validationResult } = require('express-validator/check')
 
-exports.validationEmployee = [
+exports.employeeValidator = [
 	check('name')
 		.isLength({ min: 2 })
 		.withMessage('must be at least 2 chars long in name')
@@ -25,7 +25,7 @@ exports.validationEmployee = [
 	},
 ]
 
-exports.validatorDepartment = [
+exports.departmentValidator = [
 	check('title').isAlpha().withMessage('must be only letters in title'),
 	check('description').isAlpha().withMessage('must be only letters in description'),
 	(req, res, next) => {

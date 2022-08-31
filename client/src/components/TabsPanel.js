@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { Button, Tab, Tabs, Form } from 'react-bootstrap'
 import DepartmentItem from './DepartmentItem'
-import ModalEmployee from './ModalEmployee'
+import ModalEmployee from './modals/ModalEmployee'
 import EmployeeItem from './EmployeeItem'
 import { createEmployee, deleteEmployee } from '../http/employeeAPI'
-import ModalDepartment from './ModalDepartment'
+import ModalDepartment from './modals/ModalDepartment'
 import { createDepartment, deleteDepartment } from '../http/departmentAPI '
 
 const TabsPanel = ({
@@ -12,6 +12,7 @@ const TabsPanel = ({
   fetchDepartments,
   employees,
   departments,
+  token,
 }) => {
   const [activeModal, setActiveModal] = useState('')
   const [searchValue, setSearchValue] = useState('')
@@ -27,12 +28,9 @@ const TabsPanel = ({
         fetchDepartments()
       })
       .catch((err) => {
-        console.log('ERR', err)
         setError(err.response.data.errors)
       })
   }
-
-  console.log(error)
 
   const handleAddDepartment = ({ title, description }) => {
     createDepartment({ title, description }).then((data) => {
@@ -58,15 +56,18 @@ const TabsPanel = ({
   return (
     <Tabs fill className="mt-3">
       <Tab eventKey="Departments" title="Departments">
-        <div className="d-flex justify-content-end">
-          <Button
-            className="my-3"
-            variant="outline-success"
-            onClick={() => setActiveModal('department')}
-          >
-            Add new
-          </Button>
-        </div>
+        {token && (
+          <div className="d-flex justify-content-end">
+            <Button
+              className="my-3"
+              variant="outline-success"
+              onClick={() => setActiveModal('department')}
+            >
+              Add new
+            </Button>
+          </div>
+        )}
+
         <ModalDepartment
           show={activeModal === 'department'}
           handleClose={handleClose}
@@ -75,6 +76,7 @@ const TabsPanel = ({
         {departments &&
           departments.map((department) => (
             <DepartmentItem
+              token={token}
               employees={employees.filter(
                 (item) => item.departmentId === department.id
               )}
@@ -94,15 +96,16 @@ const TabsPanel = ({
             aria-label="Search"
             onChange={(e) => setSearchValue(e.target.value)}
           />
-
-          <Button
-            className="text-nowrap"
-            variant="outline-success"
-            disabled={!departments || !departments.length}
-            onClick={() => setActiveModal('employee')}
-          >
-            Add new
-          </Button>
+          {token && (
+            <Button
+              className="text-nowrap"
+              variant="outline-success"
+              disabled={!departments || !departments.length}
+              onClick={() => setActiveModal('employee')}
+            >
+              Add new
+            </Button>
+          )}
         </Form>
         <ModalEmployee
           departments={departments}
@@ -123,7 +126,8 @@ const TabsPanel = ({
               <EmployeeItem
                 key={employee.id}
                 employee={employee}
-                handleDelete={()=> handleDeleteEmployee(employee.id)}
+                token={token}
+                handleDelete={() => handleDeleteEmployee(employee.id)}
                 department={departments.find(
                   (department) => department.id === employee.departmentId
                 )}

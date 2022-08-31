@@ -5,7 +5,7 @@ import TabsPanel from '../components/TabsPanel'
 import { getEmployees } from '../http/employeeAPI'
 import { getDepartments } from '../http/departmentAPI '
 
-const MainPage = () => {
+const MainPage = ({token}) => {
   const [employees, setEmployees] = useState(null)
   const [departments, setDepartments] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
@@ -50,6 +50,7 @@ const MainPage = () => {
               fetchDepartments={fetchDepartments}
               employees={employees}
               departments={departments}
+              token={token}
             />
           </Col>
         </Row>

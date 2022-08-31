@@ -2,7 +2,7 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Button, Card, Row, Col } from 'react-bootstrap'
 
-const EmployeeItem = ({ employee, department, handleDelete }) => {
+const EmployeeItem = ({ employee, department, handleDelete, token }) => {
   const navigate = useNavigate()
 
   const onDeleteClick = (e) => {
@@ -30,9 +30,11 @@ const EmployeeItem = ({ employee, department, handleDelete }) => {
           </Card.Body>
         </Col>
         <Col className="d-flex justify-content-center align-items-center">
-          <Button variant="danger" onClick={onDeleteClick}>
-            Delete
-          </Button>
+          {token && (
+            <Button variant="outline-danger" onClick={onDeleteClick}>
+              Delete
+            </Button>
+          )}
         </Col>
       </Row>
     </Card>
