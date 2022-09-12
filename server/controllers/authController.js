@@ -1,6 +1,6 @@
-const jwt = require('jsonwebtoken')
-const ApiError = require('../apiError')
-const { Admin } = require('../models')
+import jwt from 'jsonwebtoken'
+import ApiError from '../apiError.js'
+import  Admin  from '../models/admin.js'
 
 const generateJwt = (login, password) => {
 	return jwt.sign({ login, password }, process.env.SECRET_KEY, {
@@ -11,7 +11,7 @@ const generateJwt = (login, password) => {
 class AuthController {
 	async create(req, res) {
 		const { login, password } = req.body
-		const admin = await Admin.create({ login, password })
+		const admin = await Admin.create({ login, password }) 
 		return res.json(admin)
 	}
 
@@ -34,4 +34,4 @@ class AuthController {
 	}
 }
 
-module.exports = new AuthController()
+export default new AuthController()

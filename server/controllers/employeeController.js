@@ -1,5 +1,5 @@
-const { Employee } = require('../models')
-const ApiError = require('../apiError')
+import Employee  from '../models/employee.js'
+import ApiError from '../apiError.js'
 
 class EmployeeController {
 	async create(req, res, next) {
@@ -57,4 +57,4 @@ class EmployeeController {
 	}
 }
 
-module.exports = new EmployeeController()
+export default new EmployeeController()

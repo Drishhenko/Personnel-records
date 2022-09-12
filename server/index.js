@@ -1,10 +1,14 @@
-require('dotenv').config()
-const express = require('express')
-const cors = require('cors')
-const sequelize = require('./database')
-const router = require('./routes')
+import dotenv  from "dotenv"
+import express from 'express'
+import cors from 'cors'
+import sequelize from './database.js'
+import router from './routes/routes.js'
+
+
+dotenv.config()
+
 const PORT = process.env.PORT
-const app = express()
+const  app = express()
 
 app.use(cors())
 app.use(express.json())
@@ -15,7 +19,7 @@ const start = async () => {
 		await sequelize.authenticate()
 		await sequelize.sync()
 		app.listen(PORT, () => console.log(`Server started on port ${PORT}`))
-	} catch (e) {}
+	} catch (e) {} 
 }
 
 start()

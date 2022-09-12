@@ -6,8 +6,10 @@
   },
   "extends": ["eslint:recommended", "prettier"],
   "overrides": [],
+
   "parserOptions": {
-    "ecmaVersion": "latest"
+    "ecmaVersion": "latest",
+    "sourceType": "module"
   },
 
   "plugins": ["prettier"],
@@ -19,4 +21,7 @@
       }
     ]
   }
+
+  
 }
+

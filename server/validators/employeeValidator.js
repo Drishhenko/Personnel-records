@@ -1,6 +1,6 @@
-const { check, validationResult } = require('express-validator/check')
+import { check, validationResult } from 'express-validator/check/index.js'
 
-exports.employeeValidator = [
+const employeeValidator = [
 	check('name')
 		.isLength({ min: 2 })
 		.withMessage('must be at least 2 chars long in name')
@@ -25,13 +25,4 @@ exports.employeeValidator = [
 	},
 ]
 
-exports.departmentValidator = [
-	check('title').isAlpha().withMessage('must be only letters in title'),
-	check('description').isAlpha().withMessage('must be only letters in description'),
-	(req, res, next) => {
-		const errors = validationResult(req)
-		if (!errors.isEmpty())
-			return res.status(422).json({ errors: errors.array() })
-		next()
-	},
-]
+export default employeeValidator

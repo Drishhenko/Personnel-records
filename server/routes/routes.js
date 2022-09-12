@@ -1,8 +1,9 @@
-const Router = require('express')
-const authController = require('./controllers/authController')
-const departmentController = require('./controllers/departmentController')
-const employeeController = require('./controllers/employeeController')
-const { employeeValidator, departmentValidator} = require('./services/validators')
+import Router from 'express'
+import authController from '../controllers/authController.js'
+import departmentController from '../controllers/departmentController.js'
+import employeeController from '../controllers/employeeController.js'
+import departmentValidator from '../validators/departmentValidator.js'
+import employeeValidator from '../validators/employeeValidator.js'
 
 const employeeRouter = new Router()
 console.log({ employeeRouter })
@@ -31,4 +32,4 @@ mainRouter.use('/department', departmentRouter)
 mainRouter.use('/auth', authRouter)
 
 
-module.exports = mainRouter
+export default mainRouter
