@@ -1,27 +1,25 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
-import { Card, Col, Button, Row, Badge } from 'react-bootstrap'
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import { Card, Col, Button, Row, Badge } from "react-bootstrap";
 
 const DepartmentItem = ({ department, handleDelete, employees, token }) => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const onDeleteClick = (e) => {
-    e.stopPropagation()
-    handleDelete(department.id)
-  }
+    e.stopPropagation();
+    handleDelete(department.id);
+  };
   const headOfDepartment =
     department &&
     department.stuff.find(
-      (employee) => employee.position === 'Head of department'
-    )
-
-  console.log({ token })
+      (employee) => employee.position === "Head of department"
+    );
 
   return (
     <Card
       className="mb-2"
-      style={{ cursor: 'pointer' }}
-      onClick={() => navigate('/department/' + department.id)}
+      style={{ cursor: "pointer" }}
+      onClick={() => navigate("/department/" + department.id)}
     >
       <Row>
         <Col>
@@ -44,7 +42,7 @@ const DepartmentItem = ({ department, handleDelete, employees, token }) => {
           className="d-flex justify-content-center align-items-center"
         >
           <Badge bg="primary" pill>
-            {employees.length} employees
+            {employees && employees.length} employees
           </Badge>
         </Col>
         <Col
@@ -59,7 +57,7 @@ const DepartmentItem = ({ department, handleDelete, employees, token }) => {
         </Col>
       </Row>
     </Card>
-  )
-}
+  );
+};
 
-export default DepartmentItem
+export default DepartmentItem;

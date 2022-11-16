@@ -13,7 +13,7 @@ const ModalEmployee = ({
   const [departmentId, setDepartmentId] = useState('')
 
   const [position, setPosition] = useState('Simple employee')
-
+  console.log('departmentId :::', departmentId)
   return (
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>

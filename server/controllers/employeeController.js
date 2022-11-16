@@ -1,26 +1,33 @@
-import Employee  from '../models/employee.js'
 import ApiError from '../apiError.js'
 import {
 	getAllEmployees,
 	getEmployeeById,
 	createEmployee,
 	deleteEmployeeById,
+	getHeadOfDepartment,
 } from '../services/employeeServices.js'
 
 class EmployeeController {
 	async create(req, res, next) {
 		const { name, surname, position, departmentId } = req.body
+
 		if (position === 'Head of department') {
-			const headOfDepartment = await Employee.findOne({
-				were: { departmentId, position },
-			})
-	
+			const headOfDepartment = await getHeadOfDepartment (
+				departmentId,
+				position
+			)
 			if (headOfDepartment) {
 				return res.status(400).send('There can be only one head of department.')
 			}
-		}		
+		}
+
 		try {
-			const employee = await createEmployee(name, surname, position, departmentId)
+			const employee = await createEmployee (
+				name,
+				surname,
+				position,
+				departmentId
+			)
 			res.json(employee)
 		} catch (e) {
 			return next(ApiError.internalServerError(e.message))
@@ -28,6 +35,7 @@ class EmployeeController {
 	}
 
 	async getAll(req, res, next) {
+		const { sort } = req.params
 		try {
 			const employees = await getAllEmployees()
 			res.json(employees)
@@ -49,7 +57,7 @@ class EmployeeController {
 	async delete(req, res, next) {
 		const { id } = req.params
 		try {
-			await eleteEmployeeById(id)
+			await deleteEmployeeById(id)
 		} catch (e) {
 			return next(ApiError.internalServerError(e.message))
 		}

@@ -5,8 +5,8 @@ export const createDepartment = async (department) => {
   return data
 }
 
-export const getDepartments = async () => {
-  const { data } = await $host.get('api/department')
+export const getDepartments = async (sort) => {
+  const { data } = await $host.get('api/department/'+ sort)
   return data
 }
 

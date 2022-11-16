@@ -21,8 +21,9 @@ class DepartmentController {
 	}
 
 	async getAll(req, res, next) {
+		const {sort} = req.params
 		try {
-			const departments = await getAllDepartments()
+			const departments = await getAllDepartments(sort)
 			res.json(departments)
 		} catch (e) {
 			return next(ApiError.notFound(e.message))
