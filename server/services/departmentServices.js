@@ -13,11 +13,19 @@ export const getAllDepartments = async (sort) => {
   const departments = await Department.findAll({
     include: { model: Employee, as: "stuff" },
   });
+
   if (sort === 'top5') {
     return departments.sort((a, b) => b.stuff.length - a.stuff.length).slice(0, 5)  
   }
-  return departments;
-  
+  if (sort ==='name') {
+    return departments.sort((a, b) => b.name - a.name)
+  }
+  if(sort === 'date') {
+    return departments.sort((a, b) => b.createdAt - a.createdAt)
+  } 
+  if(sort === 'number') {
+    return departments.sort((a, b) => b.stuff.length - a.stuff.length)
+  } 
 };
 
 export const getSortedDepartments = async (sort) => {

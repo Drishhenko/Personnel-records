@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { getOneEmployee } from '../http/employeeAPI'
 import Beth from '../icon-beth-smith.svg'
 import { Card, Col, Row, Spinner } from 'react-bootstrap'
-import { getOneDepartment } from '../http/departmentAPI '
+import { getOneDepartment } from '../http/departmentAPI'
 
 const EmployeePage = () => {
   const [employee, setEmployee] = useState(null)

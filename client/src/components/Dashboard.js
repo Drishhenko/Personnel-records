@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getEmployees } from '../http/employeeAPI'
-import { getDepartments } from '../http/departmentAPI '
+import { getDepartments } from '../http/departmentAPI'
 import { ListGroup } from 'react-bootstrap'
 
 const Dashboard = () => {

@@ -1,75 +1,125 @@
-import React, { useState } from 'react'
-import { Button, Tab, Tabs, Form } from 'react-bootstrap'
-import DepartmentItem from './DepartmentItem'
-import ModalEmployee from './modals/ModalEmployee'
-import EmployeeItem from './EmployeeItem'
-import { createEmployee, deleteEmployee } from '../http/employeeAPI'
-import ModalDepartment from './modals/ModalDepartment'
-import { createDepartment, deleteDepartment } from '../http/departmentAPI '
+import React, { useState, useEffect } from "react";
+import {
+  Button,
+  Tab,
+  Tabs,
+  Form,
+  ButtonGroup,
+} from "react-bootstrap";
+import DepartmentItem from "./DepartmentItem";
+import ModalEmployee from "./modals/ModalEmployee";
+import EmployeeItem from "./EmployeeItem";
+import { createEmployee, getEmployees, deleteEmployee } from "../http/employeeAPI";
+import ModalDepartment from "./modals/ModalDepartment";
+import { createDepartment, deleteDepartment, getDepartments } from "../http/departmentAPI";
 
-const TabsPanel = ({
-  fetchEmployees,
-  fetchDepartments,
-  employees,
-  departments,
-  token,
-}) => {
-  const [activeModal, setActiveModal] = useState('')
-  const [searchValue, setSearchValue] = useState('')
-  const [error, setError] = useState(null)
+const TabsPanel = ({token}) => {
 
-  const handleClose = () => setActiveModal('')
+  const [departments, setDepartments] = useState(null)
+  const [employees, setEmployees] = useState(null)
+  const [sort, setSort] = useState("date");
+  const [activeModal, setActiveModal] = useState("");
+  const [searchValue, setSearchValue] = useState("");
+  const [error, setError] = useState(null);
+
+  const fetchEmployees = () => {
+    getEmployees(sort || "date").then((data) => {
+      setEmployees(data)
+    })
+  }
+
+  const fetchDepartments = () => {
+    getDepartments(sort || "date").then((data) => {
+      console.log('data', data)
+      setDepartments(data)
+    })
+  }
+
+  useEffect(() => {
+    if (!employees) {
+      fetchEmployees()
+    }
+    if (!departments) {
+      fetchDepartments()
+    }
+  })
+
+   useEffect(() => {
+      fetchDepartments()
+  }, [sort])
+
+  console.log("SORT", sort);
+
+  const sortValues = [
+    { name: "Name", value: "name" },
+    { name: "Date", value: "date" },
+    { name: "Number of employees", value: "number" },
+  ];
+
+  const handleClose = () => setActiveModal("");
 
   const handleAddEmployee = ({ name, surname, position, departmentId }) => {
     createEmployee({ name, surname, position, departmentId })
       .then((data) => {
-        handleClose()
-        fetchEmployees()
-        fetchDepartments()
+        handleClose();
+        fetchEmployees();
+        fetchDepartments();
       })
       .catch((err) => {
-        setError(err.response.data.errors)
-      })
-  }
+        setError(err.response.data.errors);
+      });
+  };
 
   const handleAddDepartment = ({ title, description }) => {
     createDepartment({ title, description }).then((data) => {
-      handleClose()
-      fetchDepartments()
-    })
-  }
+      handleClose();
+      fetchDepartments();
+    });
+  };
 
   const handleDeleteEmployee = (id) => {
     deleteEmployee(id).then((data) => {
-      handleClose()
-      fetchEmployees()
-    })
-  }
+      handleClose();
+      fetchEmployees();
+    });
+  };
 
   const handleDeleteDepartment = (id) => {
     deleteDepartment(id).then((data) => {
-      handleClose()
-      fetchDepartments()
-    })
-  }
+      handleClose();
+      fetchDepartments();
+    });
+  };
 
   return (
     <Tabs fill className="mt-3">
       <Tab eventKey="Departments" title="Departments">
-        {token && (
-          <div className="d-flex justify-content-end">
+        <div className="d-flex justify-content-between">
+          <ButtonGroup className="my-3">
+            {sortValues.map((sort) => (
+              <Button
+                variant="outline-primary"
+                onClick={(e) => setSort(e.target.value)}
+                key={sort.value}
+                value={sort.value}
+              >
+                {sort.name}
+              </Button>
+            ))}
+          </ButtonGroup>
+          {token && (
             <Button
               className="my-3"
               variant="outline-success"
-              onClick={() => setActiveModal('department')}
+              onClick={() => setActiveModal("department")}
             >
               Add new
             </Button>
-          </div>
-        )}
+          )}
+        </div>
 
         <ModalDepartment
-          show={activeModal === 'department'}
+          show={activeModal === "department"}
           handleClose={handleClose}
           handleAdd={handleAddDepartment}
         />
@@ -77,9 +127,10 @@ const TabsPanel = ({
           departments.map((department) => (
             <DepartmentItem
               token={token}
-              employees={employees.filter(
-                (item) => item.departmentId === department.id
-              )}
+              employees={
+                employees &&
+                employees.filter((item) => item.departmentId === department.id)
+              }
               department={department}
               handleDelete={handleDeleteDepartment}
               key={department.id}
@@ -101,7 +152,7 @@ const TabsPanel = ({
               className="text-nowrap"
               variant="outline-success"
               disabled={!departments || !departments.length}
-              onClick={() => setActiveModal('employee')}
+              onClick={() => setActiveModal("employee")}
             >
               Add new
             </Button>
@@ -109,7 +160,7 @@ const TabsPanel = ({
         </Form>
         <ModalEmployee
           departments={departments}
-          show={activeModal === 'employee'}
+          show={activeModal === "employee"}
           handleClose={handleClose}
           error={error}
           handleAdd={handleAddEmployee}
@@ -135,7 +186,7 @@ const TabsPanel = ({
             ))}
       </Tab>
     </Tabs>
-  )
-}
+  );
+};
 
-export default TabsPanel
+export default TabsPanel;

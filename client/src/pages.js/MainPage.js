@@ -3,7 +3,7 @@ import { Col, Container, Row, Spinner } from 'react-bootstrap'
 import Dashboard from '../components/Dashboard'
 import TabsPanel from '../components/TabsPanel'
 import { getEmployees } from '../http/employeeAPI'
-import { getDepartments } from '../http/departmentAPI '
+import { getDepartments } from '../http/departmentAPI'
 
 const MainPage = ({token}) => {
   const [employees, setEmployees] = useState(null)
@@ -46,10 +46,6 @@ const MainPage = ({token}) => {
           </Col>
           <Col xs={9}>
             <TabsPanel
-              fetchEmployees={fetchEmployees}
-              fetchDepartments={fetchDepartments}
-              employees={employees}
-              departments={departments}
               token={token}
             />
           </Col>

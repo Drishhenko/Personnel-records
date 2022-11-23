@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { getOneDepartment } from '../http/departmentAPI '
+import { getOneDepartment } from '../http/departmentAPI'
 import { Card, Col, Row, ListGroup, Spinner } from 'react-bootstrap'
 
 const DepartmentPage = () => {
