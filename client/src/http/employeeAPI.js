@@ -5,8 +5,8 @@ export const createEmployee = async (employee) => {
     return data
 }
 
-export const getEmployees = async () => {
-  const { data } = await $host.get('api/employee')
+export const getEmployees = async (sort) => {
+  const { data } = await $host.get('api/employee/all/'+sort)
   return data
 }
 

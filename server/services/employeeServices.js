@@ -14,8 +14,8 @@ export const createEmployee = async (name, surname, position, departmentId) => {
 export const getAllEmployees = async (sort) => {
 	const employees = await Employee.findAll()
 	if (sort === 'last5') {
-		return employees.sort((a, b) =>  new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 4) 
-	}
+		return employees.sort((a, b) =>  new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 5) 
+	} 
 	return employees
 }
 

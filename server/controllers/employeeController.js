@@ -37,7 +37,7 @@ class EmployeeController {
 	async getAll(req, res, next) {
 		const { sort } = req.params
 		try {
-			const employees = await getAllEmployees()
+			const employees = await getAllEmployees(sort)
 			res.json(employees)
 		} catch (e) {
 			return next(ApiError.notFound(e.message))
