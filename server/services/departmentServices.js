@@ -14,7 +14,7 @@ export const getAllDepartments = async (sort) => {
     include: { model: Employee, as: "stuff" },
   });
   if (sort === 'top5') {
-    return departments.sort((a, b) => b.stuff.length - a.stuff.length).slice(0, 4)  
+    return departments.sort((a, b) => b.stuff.length - a.stuff.length).slice(0, 5)  
   }
   return departments;
   
