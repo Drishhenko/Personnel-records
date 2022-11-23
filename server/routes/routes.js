@@ -17,7 +17,7 @@ employeeRouter.delete('/:id', employeeController.delete)
 const departmentRouter = new Router()
 
 departmentRouter.post('/', departmentValidator, departmentController.create)
-departmentRouter.get('/:sort', departmentController.getAll)
+departmentRouter.get('/all/:sort', departmentController.getAll)
 departmentRouter.get('/:id', departmentController.getOne)
 departmentRouter.delete('/:id', departmentController.delete)
 

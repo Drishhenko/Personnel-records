@@ -15,11 +15,11 @@ const DepartmentPage = () => {
   }, [id])
 
   const headOfDepartment =
-    department &&
+    department &&  department.stuff &&
     department.stuff.find(
       (employee) => employee.position === 'Head of department'
     )
-
+console.log('dep', department)
   return department ? (
     <Card>
       <Card.Body>
@@ -39,7 +39,7 @@ const DepartmentPage = () => {
                   {`Head of department: ${headOfDepartment.name} ${headOfDepartment.surname}`}
                 </ListGroup.Item>
               )}
-              {department.stuff.length &&
+              {department.stuff && department.stuff.length &&
                 department.stuff.map((employee) => (
                   <ListGroup.Item
                     key={employee.id}
