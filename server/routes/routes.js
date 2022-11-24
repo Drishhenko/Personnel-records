@@ -10,7 +10,7 @@ console.log({ employeeRouter })
 
 employeeRouter.post('/', employeeValidator, employeeController.create)
 employeeRouter.get('/:id', employeeController.getOne)
-employeeRouter.get('/all/:sort', employeeController.getAll)
+employeeRouter.get('/all/:sort/:searchValue?', employeeController.getAll)
 
 employeeRouter.delete('/:id', employeeController.delete)
 

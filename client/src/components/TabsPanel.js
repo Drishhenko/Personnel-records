@@ -1,60 +1,60 @@
 import React, { useState, useEffect } from "react";
-import {
-  Button,
-  Tab,
-  Tabs,
-  Form,
-  ButtonGroup,
-} from "react-bootstrap";
+import { Button, Tab, Tabs, Form, ButtonGroup } from "react-bootstrap";
 import DepartmentItem from "./DepartmentItem";
 import ModalEmployee from "./modals/ModalEmployee";
 import EmployeeItem from "./EmployeeItem";
-import { createEmployee, getEmployees, deleteEmployee } from "../http/employeeAPI";
+import {
+  createEmployee,
+  getEmployees,
+  deleteEmployee,
+} from "../http/employeeAPI";
 import ModalDepartment from "./modals/ModalDepartment";
-import { createDepartment, deleteDepartment, getDepartments } from "../http/departmentAPI";
+import {
+  createDepartment,
+  deleteDepartment,
+  getDepartments,
+} from "../http/departmentAPI";
 
-const TabsPanel = ({token}) => {
+const SORT_VALUES = [
+  { name: "Name", value: "name" },
+  { name: "Date", value: "date" },
+  { name: "Number of employees", value: "number" },
+];
 
-  const [departments, setDepartments] = useState(null)
-  const [employees, setEmployees] = useState(null)
+const TabsPanel = ({ token }) => {
+  const [departments, setDepartments] = useState(null);
+  const [employees, setEmployees] = useState(null);
   const [sort, setSort] = useState("date");
   const [activeModal, setActiveModal] = useState("");
-  const [searchValue, setSearchValue] = useState("");
+  const [searchValue, setSearchValue] = useState('');
   const [error, setError] = useState(null);
 
   const fetchEmployees = () => {
-    getEmployees(sort || "date").then((data) => {
-      setEmployees(data)
-    })
-  }
+    getEmployees(sort || "date", searchValue || '').then((data) => {
+      setEmployees(data);
+    });
+  };
 
   const fetchDepartments = () => {
     getDepartments(sort || "date").then((data) => {
-      console.log('data', data)
-      setDepartments(data)
-    })
-  }
+      setDepartments(data);
+    });
+  };
 
   useEffect(() => {
-    if (!employees) {
-      fetchEmployees()
+    if (!employees && !departments) {
+      fetchEmployees();
+      fetchDepartments();
     }
-    if (!departments) {
-      fetchDepartments()
-    }
-  })
+  });
 
-   useEffect(() => {
-      fetchDepartments()
-  }, [sort])
+  useEffect(() => {
+    fetchDepartments();
+  }, [sort]);
 
-  console.log("SORT", sort);
-
-  const sortValues = [
-    { name: "Name", value: "name" },
-    { name: "Date", value: "date" },
-    { name: "Number of employees", value: "number" },
-  ];
+  useEffect(() => {
+    fetchEmployees();
+  }, [searchValue]);
 
   const handleClose = () => setActiveModal("");
 
@@ -71,21 +71,21 @@ const TabsPanel = ({token}) => {
   };
 
   const handleAddDepartment = ({ title, description }) => {
-    createDepartment({ title, description }).then((data) => {
+    createDepartment({ title, description }).then(() => {
       handleClose();
       fetchDepartments();
     });
   };
 
   const handleDeleteEmployee = (id) => {
-    deleteEmployee(id).then((data) => {
+    deleteEmployee(id).then(() => {
       handleClose();
       fetchEmployees();
     });
   };
 
   const handleDeleteDepartment = (id) => {
-    deleteDepartment(id).then((data) => {
+    deleteDepartment(id).then(() => {
       handleClose();
       fetchDepartments();
     });
@@ -96,7 +96,7 @@ const TabsPanel = ({token}) => {
       <Tab eventKey="Departments" title="Departments">
         <div className="d-flex justify-content-between">
           <ButtonGroup className="my-3">
-            {sortValues.map((sort) => (
+            {SORT_VALUES.map((sort) => (
               <Button
                 variant="outline-primary"
                 onClick={(e) => setSort(e.target.value)}
@@ -145,7 +145,9 @@ const TabsPanel = ({token}) => {
             placeholder="Search by name"
             className="me-2"
             aria-label="Search"
-            onChange={(e) => setSearchValue(e.target.value)}
+            onChange={(e) => {
+              setSearchValue(e.target.value);
+            }}
           />
           {token && (
             <Button
@@ -168,11 +170,11 @@ const TabsPanel = ({token}) => {
         {employees &&
           departments &&
           employees
-            .filter(
-              (item) =>
-                item.name.includes(searchValue) ||
-                item.surname.includes(searchValue)
-            )
+            // .filter(
+            //   (item) =>
+            //     item.name.includes(searchValue) ||
+            //     item.surname.includes(searchValue)
+            // )
             .map((employee) => (
               <EmployeeItem
                 key={employee.id}
